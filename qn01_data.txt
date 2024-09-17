@@ -1,0 +1,2 @@
+List: ['sahithya', 'leena', 'akhila']
+tuple: ('sahithya', 'leena', 'akhila')
