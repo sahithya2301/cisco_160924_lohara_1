@@ -61,6 +61,7 @@ def patient_update(id):
 def write_patients_to_json_list(filename='patients_list.json'):
     global patients
     data = [{'id': patient.id, 'name': patient.name}for patient in patients]
+    print(data)
     with open(filename,'w') as file:
         json.dump(data, file, indent=4)
     print(f'Data written to {filename}')       

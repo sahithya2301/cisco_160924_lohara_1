@@ -8,62 +8,59 @@ class Patient:
     def __repr__(self):
         return self.__str__()
 #2. patients[]
-patients = []
+patients = {}
 
 #3. patient_add(id, name)
 def patient_add(id, name):
     global patients
     patient = Patient(id, name)
-    patients.append(patient)
-    print('Patient created successfully')
+    patients[patient.id]=patient
 #4. patient_remove(id)
 def patient_remove(id):
     global patients
-    for patient in patients:
-        if patient.id == id:
-            print(patient)
-            if input('Are you sure to delete(yes/no)?').lower() == 'yes':
-                patients.remove(patient)
-                print('Patient deleted successfully')
-            return 
+    patient=patient.get(id)
+    if(patient==None):
+        print(f'No such id {id}')
+        return
+    if input('Are you sure you want to delete? yes/no').lower()=='yes':
+        del patients[id]
+        print('Patient deleted successfully')
         #end if 
     #end for 
-    print(f'No such id {id}')
+
 #5. patient_display()
 def patient_display():
     global patients
-    for patient in patients:
-        print(patient)
-#patient_display_byid(id)
-def patient_display_byid(id):
+    for i in patients:
+        print(patients[i])
+def patient_display_byId(id):
     global patients
     for patient in patients:
-        if patient.id == id:
-            print(patient)
-            return 
-        #endif
-    #endfor 
-    print('Invalid id')
-#patient_update(id)
-def patient_update(id):
+        if(patient.id==id):
+            print (patient)
+    print("No such Id found")
+def patient_Update(id):
     global patients
-    for patient in patients:
-        if patient.id == id:
-            print(patient)
-            name = input(f'Enter new name({patient.name}):')
-            patient.name = name 
-            print('Patient updated successfully')
-            return 
-        #end if 
-    #end for 
-    print(f'No such id {id}')
+    patient=patient.get(id)
+    if patient==None:
+        print(f'No such id {id}')
+        return
+    name=input('Enter the name you want to update to')
+    patient.name=name
+    print('updated successfully')
+
+def readFile():
+    with open("Patients_dict.json",'w') as db:
+         db.write(f'List of patients{patients}')
+    print("written into the file")
 #6. menu 
 def menu():
     choice = int(input('''1-add patient
 2-delete patient by id
 3-display all patients
-4-read patient by id 
-5-update patient by id
+4-display by id
+5-update name by id
+6-write into file
 7-end                       
 your choice:'''))
     if choice == 1:
@@ -75,12 +72,14 @@ your choice:'''))
         patient_remove(id)
     elif choice == 3:
         patient_display()
-    elif choice == 4:
-        id = int(input('Enter patient id:'))
-        patient_display_byid(id)
-    elif choice == 5:
-        id = int(input('Enter patient id:'))
-        patient_update(id)
+    elif choice==4:
+        id=input("enter patient id")
+        patient_display_byId(id)
+    elif choice==5:
+        id=input("enter patient id")
+        patient_Update(id)
+    elif choice==6:
+        readFile()
     elif choice == 7:
         pass 
     else:
